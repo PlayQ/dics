@@ -15,8 +15,8 @@
         <PackageTags>dependency-injection;di;ioc;unity;source-generator;staged;distage</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageProjectUrl>https://github.com/PlayQ/opendics</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/PlayQ/opendics.git</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/PlayQ/dics</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/PlayQ/dics.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>

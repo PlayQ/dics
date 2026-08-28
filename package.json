@@ -10,9 +10,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/PlayQ/opendics.git"
+    "url": "https://github.com/PlayQ/dics.git"
   },
-  "documentationUrl": "https://github.com/PlayQ/opendics/blob/master/docs/unity.md",
+  "documentationUrl": "https://github.com/PlayQ/dics/blob/master/docs/unity.md",
   "keywords": [
     "dependency-injection",
     "di",

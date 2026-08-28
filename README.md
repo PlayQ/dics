@@ -1,7 +1,7 @@
 # DICS
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![CI](https://github.com/PlayQ/opendics/actions/workflows/ci.yml/badge.svg)](https://github.com/PlayQ/opendics/actions/workflows/ci.yml)
+[![CI](https://github.com/PlayQ/dics/actions/workflows/ci.yml/badge.svg)](https://github.com/PlayQ/dics/actions/workflows/ci.yml)
 
 DICS (pronounced *dee-see-es*) is a **staged dependency injection** library for C# —
 a simplified port of the core ideas in [DIstage](https://github.com/7mind/izumi).
@@ -24,7 +24,7 @@ from git URL*, or directly in `Packages/manifest.json`:
 ```json
 {
   "dependencies": {
-    "com.playq.dics": "https://github.com/PlayQ/opendics.git",
+    "com.playq.dics": "https://github.com/PlayQ/dics.git",
     "com.unity.nuget.newtonsoft-json": "3.2.1"
   }
 }
