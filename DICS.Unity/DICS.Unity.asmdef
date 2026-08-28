@@ -1,0 +1,16 @@
+{
+    "name": "DICS.Unity",
+    "rootNamespace": "",
+    "references": [
+        "GUID:97604fd7659a547918cf02eeae6b0096"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

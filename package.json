@@ -1,0 +1,24 @@
+{
+  "name": "com.playq.dics",
+  "version": "0.1.0",
+  "displayName": "DICS",
+  "description": "Staged dependency injection for C# and Unity. Modules and roots are compiled into a plan first: a graph that cannot be wired fails before anything is instantiated. A simplified port of the core ideas in DIstage.",
+  "unity": "2021.3",
+  "license": "MIT",
+  "author": {
+    "name": "PlayQ Inc."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PlayQ/opendics.git"
+  },
+  "documentationUrl": "https://github.com/PlayQ/opendics/blob/master/docs/unity.md",
+  "keywords": [
+    "dependency-injection",
+    "di",
+    "ioc"
+  ],
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  }
+}

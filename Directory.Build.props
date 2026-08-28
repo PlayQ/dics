@@ -1,0 +1,11 @@
+<Project>
+    <PropertyGroup>
+        <MSBUildProjectExtensionsPath>.target\</MSBUildProjectExtensionsPath>
+        <BaseOutputPath>$(MSBUildProjectExtensionsPath)bin</BaseOutputPath>
+        <BaseIntermediateOutputPath>$(MSBUildProjectExtensionsPath)obj</BaseIntermediateOutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="**\*.meta"/>
+    </ItemGroup>
+</Project>

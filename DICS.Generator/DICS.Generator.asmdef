@@ -1,0 +1,16 @@
+{
+    "name": "DICS.Generator",
+    "rootNamespace": "",
+    "references": [],
+    "includePlatforms": [
+        "XboxOne"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

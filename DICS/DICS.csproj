@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>9</LangVersion>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>DICS</PackageId>
+        <Version>0.1.0</Version>
+        <Authors>PlayQ Inc. and DICS contributors</Authors>
+        <Company>PlayQ Inc.</Company>
+        <Copyright>Copyright (c) 2024-2026 PlayQ Inc. and DICS contributors</Copyright>
+        <Description>Staged dependency injection for C# and Unity. Modules and roots are compiled into a plan first: a graph that cannot be wired fails before anything is instantiated. A simplified port of the core ideas in DIstage.</Description>
+        <PackageTags>dependency-injection;di;ioc;unity;source-generator;staged;distage</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageProjectUrl>https://github.com/PlayQ/opendics</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/PlayQ/opendics.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="\" Visible="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Text.Json" Version="9.0.15" />
+    </ItemGroup>
+
+    <!-- DICS.Generator ships inside this package as a Roslyn analyzer, so adding DICS
+         also enables the [LiftConstructor]/[LiftInitializer]/[LiftFactory] generators.
+         The reference is build-order only; the generator assembly is packed by path
+         (BaseOutputPath is pinned by Directory.Build.props). -->
+    <ItemGroup>
+        <ProjectReference Include="..\DICS.Generator\DICS.Generator.csproj"
+                          OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+        <None Include="..\DICS.Generator\.target\bin\$(Configuration)\netstandard2.0\DICS.Generator.dll"
+              Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+    </ItemGroup>
+</Project>

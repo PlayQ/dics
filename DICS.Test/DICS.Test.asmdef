@@ -1,0 +1,19 @@
+{
+    "name": "DICS.Test",
+    "rootNamespace": "",
+    "references": [
+        "GUID:97604fd7659a547918cf02eeae6b0096",
+        "GUID:a637e619be1284acd96c7a3416705b99"
+    ],
+    "includePlatforms": [
+        "XboxOne"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
