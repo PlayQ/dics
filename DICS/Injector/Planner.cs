@@ -59,7 +59,7 @@ namespace DICS
                     var elementKeys = new List<Key>();
                     foreach (var binding in source)
                     {
-                        if (IsAutosetElement(ca, binding, extractorKeys))
+                        if (IsAutosetElement(ca, binding, extractorKeys, _module.ExternallyOwnedBindings))
                             elementKeys.Add(binding.Key);
                     }
 
@@ -94,14 +94,17 @@ namespace DICS
         }
 
         /// <summary>
-        /// Auto collects locally produced instances, not second names, stubs, or factories.
+        /// Auto collects locally produced instances, not second names, stubs, factories, or externally owned instances.
         /// ImplType is a real type, so kind-filtering has to be explicit.
         /// </summary>
-        private static bool IsAutosetElement(Binding.CreateAutoset ca, Binding binding, ISet<Key> extractorKeys)
+        private static bool IsAutosetElement(
+            Binding.CreateAutoset ca, Binding binding, ISet<Key> extractorKeys, ISet<Key> externallyOwnedKeys)
         {
             if (binding is Binding.AddSetElement or Binding.CreateAutoset or Binding.AddSetElements)
                 return false;
             if (!ca.ElementType.IsAssignableFrom(binding.ImplType))
+                return false;
+            if (externallyOwnedKeys.Contains(binding.Key))
                 return false;
 
             switch (binding)

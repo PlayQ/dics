@@ -8,8 +8,8 @@ namespace DICS.Test
     /// <summary>
     /// Produce-level contract for <c>Auto()</c> collection.
     /// Auto must gather locally produced instances whose type matches, once each,
-    /// and must not treat aliases, factories, stubs, or parent imports as extra
-    /// elements. IList Auto orders elements dependency-first and keeps module-binding
+    /// and must not treat aliases, factories, stubs, parent imports, or externally
+    /// owned instances as extra elements. IList Auto orders elements dependency-first and keeps module-binding
     /// order between elements that have no dependency relation, so MonoModule can
     /// dispose/tick in reverse construction order. See DisposalOrderTest for the
     /// dependency-driven half of that contract.
@@ -209,6 +209,48 @@ namespace DICS.Test
             var set = loc.Get<ISet<D>>();
             Assert.That(set.Count, Is.EqualTo(1));
             Assert.That(set.Single(), Is.SameAs(loc.Get<ChildD>()));
+        }
+
+        [Test]
+        public void ExternallyOwnedInstance_IsNotAnAutoIListElement()
+        {
+            var external = new D("external");
+            var module = new InlineModule(m =>
+            {
+                m.Make<D>().From().Instance(external).ExternallyOwned();
+                m.Make<D>().Named("owned").From().Instance(new D("owned"));
+                m.Make<IList<IDisposable>>().From().Auto();
+            });
+
+            var loc = InjectorFor(module).Produce(Key.Of<IList<IDisposable>>(), Key.Of<D>(), Key.Of<D>("owned"));
+
+            Assert.That(loc.Get<D>(), Is.SameAs(external), "an externally owned instance still resolves");
+            Assert.That(loc.Get<IList<IDisposable>>().Select(d => d.ToString()), Is.EqualTo(new[] { "owned" }),
+                "the module must not dispose an instance whose owner ends its life");
+        }
+
+        [Test]
+        public void ExternallyOwnedInstance_FromSubmodule_IsNotCollectedByTheHostOrItsChild()
+        {
+            // Mirrors a MonoModule: a submodule (FireCoreModule) binds the instance, the host module carries the
+            // IList<IDisposable> autoset, and a child scene's injector imports the instance from the host's locator.
+            var external = new D("external");
+            var submodule = new InlineModule(m => m.Make<D>().From().Instance(external).ExternallyOwned());
+            var host = new InlineModule(m =>
+            {
+                m.Make<D>().Named("owned").From().Instance(new D("owned"));
+                m.Make<IList<IDisposable>>().From().Auto();
+            });
+
+            var hostLoc = new Injector(ILocator.Empty, IDicsMeasurement.FromDefault(), "host",
+                    submodule.Freeze(), host.Freeze())
+                .Produce(Key.Of<IList<IDisposable>>(), Key.Of<D>(), Key.Of<D>("owned"));
+            var childLoc = InjectorFor(hostLoc, new InlineModule(m => m.Make<IList<IDisposable>>().From().Auto()))
+                .Produce(Key.Of<IList<IDisposable>>(), Key.Of<D>());
+
+            Assert.That(hostLoc.Get<IList<IDisposable>>().Select(d => d.ToString()), Is.EqualTo(new[] { "owned" }));
+            Assert.That(childLoc.Get<D>(), Is.SameAs(external));
+            Assert.That(childLoc.Get<IList<IDisposable>>(), Is.Empty);
         }
     }
 }

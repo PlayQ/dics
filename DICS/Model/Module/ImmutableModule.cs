@@ -6,7 +6,8 @@ namespace DICS
     public record ImmutableModule(
         IList<Binding> Bindings,
         IDictionary<Key, ISet<Key>> ExtraDeps,
-        ISet<Key> PrivateBindings)
+        ISet<Key> PrivateBindings,
+        ISet<Key> ExternallyOwnedBindings)
     {
         /// <summary>
         ///     Most likely it's a bad idea to use this method.
@@ -25,7 +26,8 @@ namespace DICS
                     new Dictionary<Key, ISet<Key>>(),
                     (a, b) => CollectionOps.MergeDictionaries(a, b)
                 ),
-                asList.SelectMany(m => m.PrivateBindings).ToHashSet()
+                asList.SelectMany(m => m.PrivateBindings).ToHashSet(),
+                asList.SelectMany(m => m.ExternallyOwnedBindings).ToHashSet()
             );
         }
 
@@ -38,7 +40,8 @@ namespace DICS
                     new Dictionary<Key, ISet<Key>>(),
                     (a, b) => CollectionOps.MergeDictionaries(a, b)
                 ),
-                frozen.SelectMany(m => m.PrivateBindings).ToHashSet()
+                frozen.SelectMany(m => m.PrivateBindings).ToHashSet(),
+                frozen.SelectMany(m => m.ExternallyOwnedBindings).ToHashSet()
             );
         }
     }

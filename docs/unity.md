@@ -310,7 +310,13 @@ Any binding that produces an `IDisposable` gets automatically added to the
 autoset `IList<IDisposable>` (when one is bound). `MonoModule` disposes the
 list in reverse on `OnDestroy`. To opt in, bind your service so that its
 implementation type implements `IDisposable` and DICS will pick it up via the
-autoset.
+autoset. One disposable that throws is logged and does not stop the others.
+
+To opt out, mark the binding `.ExternallyOwned()`: autosets skip it, and
+whoever created the instance ends its life. Use it for an instance that has to
+outlive the module that binds it. When the player shuts down, Unity destroys
+objects in an order of its own: a parent scene's module can go before the
+child scenes that still use its instances from their own `OnDestroy`.
 
 ## Editor measurements
 

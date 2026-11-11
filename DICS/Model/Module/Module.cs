@@ -76,6 +76,8 @@ namespace DICS
 
         internal readonly HashSet<Key> PrivateBindings = new();
 
+        internal readonly HashSet<Key> ExternallyOwnedBindings = new();
+
         internal void AddBinding(Binding binding)
         {
             Bindings.Add(binding);
@@ -84,6 +86,11 @@ namespace DICS
         internal void MarkBindingPrivate(Key key)
         {
             PrivateBindings.Add(key);
+        }
+
+        internal void MarkBindingExternallyOwned(Key key)
+        {
+            ExternallyOwnedBindings.Add(key);
         }
 
         internal void AddDep(Key key, Key extra)
@@ -95,7 +102,7 @@ namespace DICS
 
         public ImmutableModule Freeze()
         {
-            return new ImmutableModule(Bindings, ExtraDeps, PrivateBindings);
+            return new ImmutableModule(Bindings, ExtraDeps, PrivateBindings, ExternallyOwnedBindings);
         }
 
         public AfterMake<T> Make<T>() where T : notnull
@@ -608,6 +615,17 @@ namespace DICS
         public AfterTo<T> Private()
         {
             Module.MarkBindingPrivate(Key);
+            return this;
+        }
+
+        /// <summary>
+        ///     Declares that something outside this module owns the bound instance and ends its life. Autosets do not
+        ///     collect it, so a <c>MonoModule</c> never disposes it through its <c>IList&lt;IDisposable&gt;</c>: use it
+        ///     for an instance that has to outlive the module hosting the binding.
+        /// </summary>
+        public AfterTo<T> ExternallyOwned()
+        {
+            Module.MarkBindingExternallyOwned(Key);
             return this;
         }
 

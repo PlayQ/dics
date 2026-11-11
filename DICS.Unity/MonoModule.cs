@@ -196,7 +196,15 @@ namespace DICS.Unity
                 disposables.Reverse();
                 foreach (var disposable in disposables)
                 {
-                    disposable.Dispose();
+                    // One failing disposable must not leave the rest of this module's disposables undisposed.
+                    try
+                    {
+                        disposable.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogException(ex, this);
+                    }
                 }
             }
         }
